@@ -1,39 +1,42 @@
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import css from '../styles.module.css'
+const SearchBar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
 
-const modalRoot = document.getElementById('modalRoot');
-
-const Modal = ({ toggleModale, forModal }) => {
-  useEffect(() => {
-    const handleKeyDown = e => {
-      if (e.code === 'Escape') {
-        toggleModale();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-    // eslint-disable-next-line
-  }, []);
-
-  const handleCloseBackdrop = e => {
-    if (e.target.nodeName !== 'DIV') return;
-    toggleModale();
+  const handleChange = e => {
+    const value = e.target.value.trimStart();
+    setQuery(value);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (query.length === 0) return;
+    onSubmit(query);
   };
 
-  return createPortal(
-    <div className="overlay" onClick={handleCloseBackdrop}>
-      <div className="modal">
-        <img src={forModal.src} alt={forModal.alt} />
-      </div>
-    </div>,
-    modalRoot
+  return (
+    <header className={css.searchbar}>
+      <form className={css.searchForm}  onSubmit={handleSubmit}>
+        <button type="submit" className={css.searchbutton}>
+          <span className="searchForm-button-label"></span>
+        </button>
+
+        <input
+          className={css.searchinput}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          value={query}
+          onChange={handleChange}
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
   );
 };
 
-export default Modal;
+export default SearchBar;
 
-Modal.propTypes = {
-  toggleModale: PropTypes.func.isRequired,
-  forModal: PropTypes.object.isRequired,
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };

@@ -6,6 +6,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
+import css from './styles.module.css'
 
 export const App = () => {
   const [page, setPage] = useState(1);
@@ -73,7 +74,7 @@ export const App = () => {
   const totalPage = Math.ceil(totalHits / 12);
   return (
     <>
-      <div className="app">
+      <div className={css.app}>
         <SearchBar onSubmit={onSubmit} />
 
         {receivedData.length > 0 && (

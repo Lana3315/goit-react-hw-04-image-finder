@@ -14,6 +14,7 @@ const Modal = ({ toggleModale, forModal }) => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line
   }, []);
 
   const handleCloseBackdrop = e => {
@@ -22,16 +23,15 @@ const Modal = ({ toggleModale, forModal }) => {
   };
 
   return createPortal(
-      <div className={css.overlay} onClick={this.handleCloseBackdrop}>
-        <div className={css.modal}>
-          <img src={forModal.src} alt={forModal.alt} />
-        </div>
-      </div>,
-      modalRoot
-    );
-  }
+    <div className={css.overlay} onClick={handleCloseBackdrop}>
+      <div className={css.modal}>
+        <img src={forModal.src} alt={forModal.alt} />
+      </div>
+    </div>,
+    modalRoot
+  );
+};
 
-export default Modal;
 
 Modal.propTypes = {
   toggleModale: PropTypes.func.isRequired,
@@ -40,3 +40,4 @@ Modal.propTypes = {
     alt: PropTypes.string.isRequired,
   }).isRequired
 };
+export default Modal;
